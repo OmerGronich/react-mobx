@@ -6,7 +6,7 @@ export class GlobalViewStore implements IStore {
 	loading: boolean;
 
 	constructor(public root: RootStore) {
-		this.loading = true;
+		this.loading = false;
 		makeObservable(this, {
 			loading: observable
 		});
