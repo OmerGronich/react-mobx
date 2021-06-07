@@ -519,3 +519,8 @@ html .clear-completed:active {
         bottom: 10px;
     }
 }
+
+.main {
+    max-height: 50vh;
+    overflow: auto;
+}

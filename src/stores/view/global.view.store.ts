@@ -1,6 +1,6 @@
-import { IStore }                                                 from "../types/store.interface";
-import { RootStore }                                              from "../root.store";
-import { action, makeAutoObservable, makeObservable, observable } from "mobx";
+import { IStore }                     from "../types/store.interface";
+import { RootStore }                  from "../root.store";
+import { makeObservable, observable } from "mobx";
 
 export class GlobalViewStore implements IStore {
 	loading: boolean;
