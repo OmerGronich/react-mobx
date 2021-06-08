@@ -3,10 +3,21 @@ import { RootStore }                       from "../root.store";
 import { Todo }                            from "./entity/todo.entity";
 import { makeAutoObservable, runInAction } from "mobx";
 import { TodosAdapter }                    from "../../adapters/todos.adapter";
+import { TodoFilterOptions }               from "../view/global.view.store";
 
 export class TodosStore implements IStore {
 	todos: Todo[];
 	todosAdapter: TodosAdapter;
+
+	get filteredTodos() {
+		if (this.root.globalViewStore.currentTodoFilter === TodoFilterOptions.ACTIVE) {
+			return this.todos.filter(todo => !todo.completed);
+		} else if (this.root.globalViewStore.currentTodoFilter === TodoFilterOptions.COMPLETED) {
+			return this.todos.filter(todo => todo.completed);
+		} else {
+			return this.todos;
+		}
+	}
 
 	constructor(public root: RootStore) {
 		this.init();

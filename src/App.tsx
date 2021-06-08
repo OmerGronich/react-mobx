@@ -3,6 +3,7 @@ import './App.css';
 import { observer }                                                           from "mobx-react-lite";
 import { RootStore }                                                          from "./stores/root.store";
 import { Todo as TodoEntity }                                                 from "./stores/data/entity/todo.entity";
+import { TodoFilterOptions }                                                  from "./stores/view/global.view.store";
 
 interface ITodoProps {
 	todo: TodoEntity;
@@ -81,21 +82,30 @@ const App = observer(({store}: { store: RootStore }) => {
 						/>
 						<label htmlFor="toggle-all">Mark all as complete</label>
 						<ul className="todo-list">
-							{store.todosStore.todos.map(todo => <Todo key={todo.id} todo={todo}/>)}
+							{store.todosStore.filteredTodos.map(todo => <Todo key={todo.id} todo={todo}/>)}
 						</ul>
 					</section>
 					<footer className="footer">
 						<span className="todo-count"></span>
 						<ul className="filters">
-							<li>
-								<a href="#/" className="selected">All</a>
-							</li>
-							<li>
-								<a href="#/active">Active</a>
-							</li>
-							<li>
-								<a href="#/completed">Completed</a>
-							</li>
+							{
+								Object.keys(TodoFilterOptions).map((filter) => {
+									const todoFilterValue = TodoFilterOptions[filter as keyof typeof TodoFilterOptions];
+
+									return (
+										<li
+											key={filter}
+											onClick={() => store.globalViewStore.setCurrentFilter(todoFilterValue)}
+										>
+											<a href="#/"
+											   className={store.globalViewStore.currentTodoFilter === todoFilterValue ? 'selected' : ''}
+											>
+												{todoFilterValue}
+											</a>
+										</li>
+									);
+								})
+							}
 						</ul>
 						<button className="clear-completed">Clear completed</button>
 					</footer>
